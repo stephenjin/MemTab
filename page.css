@@ -1,0 +1,13 @@
+.topbar{
+
+	margin-bottom: 15px;
+}
+
+.progressbar-container{
+  display: inline-block;
+  width: 60%;
+  margin: 0;
+  position: relative;
+  top: 5px;
+}
+
