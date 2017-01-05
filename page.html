@@ -45,13 +45,21 @@
 	
 	<h2 id="termDef" align="center">Test Definition</h2>
 
-	<div class="col-lg-6 col-lg-offset-3"">
-		<div class="input-group">
-   		<input type="text" class="form-control" id="input">
+	<div class="col-lg-6 col-lg-offset-3">
+		<div class="input-group input-group-lg has-feedback" id="formGroup">
+   			<input type="text" class="form-control" id="inputText">	
    		<span class="input-group-btn">
-   	     <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-chevron-right"></span></button>
+   	     <button class="btn btn-default" type="submit" value="Submit"><span class="glyphicon glyphicon-chevron-right"></span></button>
   		 </span>
 		</div>
+	</div>
+
+	<div class="alert alert-success" id="success-alert">
+    <span class="glyphicon glyphicon-ok"></span>
+	</div>
+
+	<div class="alert alert-danger" id="wrong-alert">
+    <span class="glyphicon glyphicon-remove"></span>
 	</div>
 
 </div>

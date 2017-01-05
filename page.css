@@ -11,3 +11,15 @@
   top: 5px;
 }
 
+.jumbotron{
+
+	padding-bottom: 120px;
+}
+
+.alert{
+	clear: both;
+	display: table-cell;
+	height: 70%;
+	text-align: center;
+
+}
