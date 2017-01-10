@@ -7,20 +7,38 @@ var Data = (function() {
 	var frenchList = [term, term2, term3];
 
 	var current = frenchList[0];
-
+    var index = 0;
+    var progress = 0;
 
     return {
         getCurrent: function() {
             return current;
         },
-        b_func: function() {
-            alert(my_var); // this function can also access my_var
+        nextTerm: function() {
+           if(index+1 < frenchList.length){
+            index = index+1;
+            current = frenchList[index];
+            progress = ++progress;
+           }
+           else{
+            index = 0;
+            if(frenchList[index] != null){
+                current = frenchList[index];
+            }
+           }
+        },
+        getProgress: function(){
+            if (frenchList.length > 0){
+            var percent = (progress/frenchList.length)*100;
+            }
+            return percent;
         }
+       
     };
 
 })();
 
-//driver function
+//main driver function
 (function(){
 	var curr = Data.getCurrent();
 document.getElementById("termDef").innerHTML = curr.def;
@@ -42,28 +60,73 @@ $('#play-toggle').click( function(){
 $("#inputText").focus(function(){
 	$(document).keypress(function (e) {
     if (e.which == 13) {
+        resetForm();
         checkSubmission();
     }
 	});
 });
 
+$('#submitButton').click(function(e){
+    e.stopPropagation();
+    document.getElementById("inputText").focus();
+    resetForm();
+    checkSubmission();
+});
+
+//Go on to the next word
+function refreshTerm(){
+    Data.nextTerm();
+    var curr = Data.getCurrent();
+    $("#termDef").fadeOut();
+    $("#termDef").fadeIn();
+
+    setTimeout(function() {
+    document.getElementById("termDef").innerHTML = curr.def;
+    updateProgress();
+    resetForm();
+    document.getElementById("inputText").value = "";
+    }, 2400);
+    
+
+}
+
+//reset form state on document click
+document.body.addEventListener("click", resetForm);
+
+function resetForm(){
+    document.getElementById('formGroup').classList.remove("has-success", "has-error");
+
+}
+
+//checks the user input and creates a "right" or "wrong" alert based on correctness
 function checkSubmission(){
 	var sub = document.getElementById('inputText').value;
 	
 	if (sub == Data.getCurrent().word){
 		document.getElementById('formGroup').classList.add("has-success");
+        $("#wrong-alert").hide();
 		showAlert("success-alert");
+        refreshTerm();
+
 	}
 	else{
 		document.getElementById('formGroup').classList.add("has-error");
+        $("#success-alert").hide();
 		showAlert("wrong-alert");
-	}
 
+	}
 }
 
 function showAlert(type) {
                 $("#"+type).alert();
                 $("#"+type).fadeTo(2000, 500).slideUp(500, function(){
                 $("#"+type).slideUp(500);
-                });   
-            };
+                });
+            }
+
+//updates progress bar visuals
+function updateProgress(){
+    var value = Data.getProgress();
+    $('.progress-bar').css('width', value+'%').attr('aria-valuenow', value);  
+
+}
