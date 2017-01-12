@@ -26,6 +26,8 @@
 		<i class="glyphicon glyphicon-play"></i>
 		</a>
 
+		<button class="btn btn-default" value="Submit"><span class="glyphicon glyphicon-repeat"></span></button>
+
 
 		 <div class="progress progressbar-container">
             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
@@ -44,7 +46,8 @@
 <div class="jumbotron container-fluid">
 	
 	<h2 id="termDef" align="center">Test Definition</h2>
-
+	
+	<div class="form-container">
 	<div class="col-lg-6 col-lg-offset-3">
 		<div class="input-group input-group-lg has-feedback" id="formGroup">
    			<input type="text" class="form-control" id="inputText">	
@@ -52,15 +55,25 @@
    	     <button id="submitButton" class="btn btn-default" type="submit" value="Submit"><span class="glyphicon glyphicon-chevron-right"></span></button>
   		 </span>
 		</div>
+
+		
+	</div>
+	
+		<div class="alert alert-success" id="success-alert">
+    	<span class="glyphicon glyphicon-ok"></span>
+		</div>
+
+		<div class="alert alert-danger" id="wrong-alert">
+    	<span class="glyphicon glyphicon-remove"></span>
+		</div>
+	</div>
+	
+
+
+	<div id="finished-alert" class="alert alert-success">
+  	<strong>Finished!</strong>
 	</div>
 
-	<div class="alert alert-success" id="success-alert">
-    <span class="glyphicon glyphicon-ok"></span>
-	</div>
-
-	<div class="alert alert-danger" id="wrong-alert">
-    <span class="glyphicon glyphicon-remove"></span>
-	</div>
 
 </div>
 

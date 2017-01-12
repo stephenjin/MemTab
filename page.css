@@ -12,14 +12,25 @@
 }
 
 .jumbotron{
-
+	position: relative;
 	padding-bottom: 120px;
 }
 
-.alert{
-	clear: both;
-	display: table-cell;
-	height: 70%;
-	text-align: center;
+.form-container{
+	position: relative;
+}
 
+.alert{
+	position: absolute;
+	clear: both;
+	display: inline;
+	text-align: center;
+}
+
+#finished-alert{
+	position: absolute;
+	display: none;
+	margin: 75px 0 0 -75px;
+	width: 150px;
+	left: 50%;
 }

@@ -15,23 +15,22 @@ var Data = (function() {
             return current;
         },
         nextTerm: function() {
-           if(index+1 < frenchList.length){
+           if(index < frenchList.length-1){
             index = index+1;
             current = frenchList[index];
             progress = ++progress;
            }
-           else{
-            index = 0;
-            if(frenchList[index] != null){
-                current = frenchList[index];
-            }
+           else if(index == frenchList.length-1){ //last term in the list
+            progress = ++progress;
+            $('#finished-alert').show();
            }
         },
         getProgress: function(){
             if (frenchList.length > 0){
             var percent = (progress/frenchList.length)*100;
-            }
             return percent;
+            }
+            
         }
        
     };
@@ -102,7 +101,8 @@ function resetForm(){
 function checkSubmission(){
 	var sub = document.getElementById('inputText').value;
 	
-	if (sub == Data.getCurrent().word){
+    //case insensitive comparison
+	if (sub.toUpperCase() == Data.getCurrent().word.toUpperCase()){
 		document.getElementById('formGroup').classList.add("has-success");
         $("#wrong-alert").hide();
 		showAlert("success-alert");
