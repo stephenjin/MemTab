@@ -31,6 +31,11 @@ var Data = (function() {
             return percent;
             }
             
+        },
+        restart: function(){
+            index = 0;
+            current = frenchList[index];
+            progress = 0;
         }
        
     };
@@ -53,12 +58,23 @@ $('#play-toggle').click( function(){
     $(this).find('i').toggleClass('glyphicon-play').toggleClass('glyphicon-pause');
 });
 
+$('#restart').click(function(e){
+    $('#finished-alert').hide();
+    Data.restart();
+    var curr = Data.getCurrent();
+    document.getElementById("termDef").innerHTML = curr.def;
+    updateProgress();
+
+
+});
+
 
 //if text box is focused, detects if the "enter" key is pressed
 //if "enter" is pressed, the input is submitted
 $("#inputText").focus(function(){
-	$(document).keypress(function (e) {
+	$(document).off().keypress(function (e) {
     if (e.which == 13) {
+        document.getElementById("inputText").focus();
         resetForm();
         checkSubmission();
     }
@@ -93,7 +109,7 @@ function refreshTerm(){
 document.body.addEventListener("click", resetForm);
 
 function resetForm(){
-    document.getElementById('formGroup').classList.remove("has-success", "has-error");
+    $('#formGroup').removeClass("has-error has-success");
 
 }
 
