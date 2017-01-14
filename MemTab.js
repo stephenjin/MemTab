@@ -1,18 +1,22 @@
 //Global object for data storage
 var Data = (function() {
-    var term = {word:"bateau", def:"boat, ship"};
-	var term2 = {word:"sac", def:"bag, sack"};
-	var term3 = {word:"voyage", def:"trip, journey"};
+    var term = {word: "bateau", def: "boat, ship"};
+	var term2 = {word: "sac", def: "bag, sack"};
+	var term3 = {word: "voyage", def: "trip, journey"};
 
 	var frenchList = [term, term2, term3];
 
 	var current = frenchList[0];
     var index = 0;
     var progress = 0;
+    var timer = 20;
 
     return {
         getCurrent: function() {
             return current;
+        },
+        getTimer: function(){
+            return timer;
         },
         nextTerm: function() {
            if(index < frenchList.length-1){
@@ -23,6 +27,7 @@ var Data = (function() {
            else if(index == frenchList.length-1){ //last term in the list
             progress = ++progress;
             $('#finished-alert').show();
+            return true;
            }
         },
         getProgress: function(){
@@ -54,9 +59,48 @@ $("#wrong-alert").hide();
 
 
 //toggles play and pause button
+var counter;
+var count = Data.getTimer();
 $('#play-toggle').click( function(){
-    $(this).find('i').toggleClass('glyphicon-play').toggleClass('glyphicon-pause');
+    $(this).find('i').toggleClass("glyphicon-play").toggleClass("glyphicon-pause");
+
+
+    if($(this).find('i').hasClass("glyphicon-pause")){
+        $("#inputText").removeAttr("readonly");
+       counter=setInterval(timer, 1000); 
+    }
+    else{
+        clearInterval(counter);
+        $("#inputText").attr("readonly", "");
+    }
+
+
 });
+
+//countdown timer
+ function timer(){    
+     count=count-1;
+    if (count <= -1)
+     {
+     clearInterval(counter);
+     //counter ended, show hint
+     var term = Data.getCurrent().word;
+     $("#termDef").append("<br>Term: "+term);
+
+     return;
+    }
+
+    //Update timer on the page
+     document.getElementById("timer").innerHTML=count;
+    }
+
+function resetTimer(){
+    clearInterval(counter);
+    count = Data.getTimer();
+    document.getElementById("timer").innerHTML=count;
+    counter=setInterval(timer, 1000); 
+}
+
 
 $('#restart').click(function(e){
     $('#finished-alert').hide();
@@ -64,9 +108,12 @@ $('#restart').click(function(e){
     var curr = Data.getCurrent();
     document.getElementById("termDef").innerHTML = curr.def;
     updateProgress();
+    resetTimer();
 
 
 });
+
+
 
 
 //if text box is focused, detects if the "enter" key is pressed
@@ -90,7 +137,7 @@ $('#submitButton').click(function(e){
 
 //Go on to the next word
 function refreshTerm(){
-    Data.nextTerm();
+    var finished = Data.nextTerm();
     var curr = Data.getCurrent();
     $("#termDef").fadeOut();
     $("#termDef").fadeIn();
@@ -100,6 +147,12 @@ function refreshTerm(){
     updateProgress();
     resetForm();
     document.getElementById("inputText").value = "";
+
+    //reset timer except on the last term
+    if (finished != true){
+    resetTimer(); 
+    }
+    
     }, 2400);
     
 
@@ -122,6 +175,7 @@ function checkSubmission(){
 		document.getElementById('formGroup').classList.add("has-success");
         $("#wrong-alert").hide();
 		showAlert("success-alert");
+        clearInterval(counter);
         refreshTerm();
 
 	}
@@ -146,3 +200,6 @@ function updateProgress(){
     $('.progress-bar').css('width', value+'%').attr('aria-valuenow', value);  
 
 }
+
+
+
