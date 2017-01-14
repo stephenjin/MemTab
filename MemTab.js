@@ -10,6 +10,7 @@ var Data = (function() {
     var index = 0;
     var progress = 0;
     var timer = 20;
+    var finished = false;
 
     return {
         getCurrent: function() {
@@ -17,6 +18,9 @@ var Data = (function() {
         },
         getTimer: function(){
             return timer;
+        },
+        getFinished: function(){
+            return finished;
         },
         nextTerm: function() {
            if(index < frenchList.length-1){
@@ -27,7 +31,8 @@ var Data = (function() {
            else if(index == frenchList.length-1){ //last term in the list
             progress = ++progress;
             $('#finished-alert').show();
-            return true;
+            $("#inputText").attr("readonly", "");
+            finished = true;
            }
         },
         getProgress: function(){
@@ -66,8 +71,10 @@ $('#play-toggle').click( function(){
 
 
     if($(this).find('i').hasClass("glyphicon-pause")){
+        if(!Data.getFinished()){
         $("#inputText").removeAttr("readonly");
-       counter=setInterval(timer, 1000); 
+        counter=setInterval(timer, 1000); 
+        }
     }
     else{
         clearInterval(counter);
@@ -108,8 +115,11 @@ $('#restart').click(function(e){
     var curr = Data.getCurrent();
     document.getElementById("termDef").innerHTML = curr.def;
     updateProgress();
-    resetTimer();
 
+    //start timer if play button has been pressed
+    if($("#play-toggle").find('i').hasClass("glyphicon-pause")){
+    resetTimer();
+    }
 
 });
 
@@ -137,7 +147,8 @@ $('#submitButton').click(function(e){
 
 //Go on to the next word
 function refreshTerm(){
-    var finished = Data.nextTerm();
+    Data.nextTerm();
+    var finished = Data.getFinished();
     var curr = Data.getCurrent();
     $("#termDef").fadeOut();
     $("#termDef").fadeIn();
