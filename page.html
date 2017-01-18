@@ -5,10 +5,11 @@
 <head
 >	<title>MemTab</title>
 	
+	<script  type="text/javascript" src="jquery-3.1.1.js"></script>
+
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="page.css">
 	
-	<script  type="text/javascript" src="jquery-3.1.1.js"></script>
 	<script  type="text/javascript" src="bootstrap.min.js"></script>
 	
 </head>
@@ -36,9 +37,19 @@
    		 </div>
 
    		 <h1 id="timer">20</h1>
-          </div>
 
-		
+   		 <div class="dropdown pull-right">
+  			<button id="options" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span>
+  			</button>
+  			<ul class="dropdown-menu">
+    		 <li><a href="#" id="upload">Add List File</a></li>
+    		 <li><a href="#">Set Timer</a></li>
+  			</ul>
+		</div>
+
+          </div>
+			
+	<input type="file" name="file" id="file">
 
 	</div>
 

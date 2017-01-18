@@ -4,9 +4,9 @@ var Data = (function() {
 	var term2 = {word: "sac", def: "bag, sack"};
 	var term3 = {word: "voyage", def: "trip, journey"};
 
-	var frenchList = [term, term2, term3];
+	var termList = [term, term2, term3];
 
-	var current = frenchList[0];
+	var current = termList[0];
     var index = 0;
     var progress = 0;
     var timer = 20;
@@ -23,12 +23,12 @@ var Data = (function() {
             return finished;
         },
         nextTerm: function() {
-           if(index < frenchList.length-1){
+           if(index < termList.length-1){
             index = index+1;
-            current = frenchList[index];
+            current = termList[index];
             progress = ++progress;
            }
-           else if(index == frenchList.length-1){ //last term in the list
+           else if(index == termList.length-1){ //last term in the list
             progress = ++progress;
             $('#finished-alert').show();
             $("#inputText").attr("readonly", "");
@@ -36,18 +36,24 @@ var Data = (function() {
            }
         },
         getProgress: function(){
-            if (frenchList.length > 0){
-            var percent = (progress/frenchList.length)*100;
+            if (termList.length > 0){
+            var percent = (progress/termList.length)*100;
             return percent;
             }
             
         },
         restart: function(){
             index = 0;
-            current = frenchList[index];
+            current = termList[index];
             progress = 0;
+        },
+        addTerm: function(term){
+            termList.push(term);
+        },
+        clearTerms: function(){
+            termList.length = 0;
         }
-       
+        
     };
 
 })();
@@ -123,7 +129,17 @@ $('#restart').click(function(e){
 
 });
 
+//dropdown menu
+$(document).ready(function() {
+    $(".dropdown-toggle").dropdown();
+});
 
+//trigger file opload from the options dropdown menu
+ $("#upload").on('click', function(e){
+        e.preventDefault();
+        alert("Select a text file with each term on a new line in the following format:\n\nterm: definition\n\ne.g.\nboat: a small vessel propelled on water by oars, sails, or an engine");
+        $("#file:hidden").trigger('click');
+    });
 
 
 //if text box is focused, detects if the "enter" key is pressed
@@ -211,6 +227,32 @@ function updateProgress(){
     $('.progress-bar').css('width', value+'%').attr('aria-valuenow', value);  
 
 }
+
+//reads in a file
+document.getElementById('file').onchange = function(){
+
+  var file = this.files[0];
+
+  var reader = new FileReader();
+  reader.onload = function(progressEvent){
+
+    //Read line by line
+    var lines = this.result.split('\n');
+    Data.clearTerms();
+    for(var line = 0; line < lines.length; line++){
+       var str = lines[line].split(/: |:/); 
+      console.log(str[0]);
+      console.log(str[1]);
+      var term = {word: str[0], def: str[1]};
+      Data.addTerm(term);
+    }
+
+    //reset list to beginning on file load
+    $('#restart').click();
+  };
+
+  reader.readAsText(file);
+};
 
 
 
