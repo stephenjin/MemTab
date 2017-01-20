@@ -1,0 +1,3 @@
+maokai: tree
+azir: bird
+yasuo: feeder

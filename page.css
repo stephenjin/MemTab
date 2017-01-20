@@ -17,6 +17,16 @@
 	vertical-align: middle;
 }
 
+#options{
+	display: inline-block;
+	margin: auto;
+	
+}
+
+#file{
+	display: none;
+}
+
 .jumbotron{
 	position: relative;
 	padding-bottom: 120px;
