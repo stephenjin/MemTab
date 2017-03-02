@@ -70,6 +70,7 @@ var Data = (function() {
             index = 0;
             current = termList[index];
             progress = 0;
+            finished = false;
         },
         setTimer: function(time){
             timer = time;
